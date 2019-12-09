@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container is-visible" :class="{active: isActive}">
+  <div class="header-container" :class="{active: isActive, collapsed: isCollapsed}">
     {{ title}}
     <div class="config-dropdown-btn" @click.stop="toggleActive">
       <div class="dropdown-icon"></div>
@@ -64,6 +64,7 @@ export default {
   data: function() {
     return {
       isActive: false,
+      isCollapsed: false,
       colorsCollapsed: false,
       activeColorPicker: null
     };
@@ -83,27 +84,25 @@ export default {
     }
   },
   methods: {
+    // changes header size when scrolled down
     handleSCroll() {
-      let header = document.querySelector(".header-container");
-      if (window.scrollY < 60) {
-        header.classList.add("is-visible");
-      } else if (window.scrollY > 60) {
-        header.classList.remove("is-visible");
-      }
+      this.isCollapsed = window.scrollY < 60;
     },
     toggleActive() {
       this.isActive = !this.isActive;
     },
+    //closes header dropdown and all child windows/dropdowns
     closeDropdown() {
       this.isActive = false;
       this.colorsCollapsed = true;
       this.activeColorPicker = null;
     },
+    // toggles colors dropdown
     toggleColorsCollapse() {
       this.colorsCollapsed = !this.colorsCollapsed;
     },
+    // toggles individual color picker elements
     toggleColorPicker(event, color) {
-      console.log("toggleColorPicker", event, color);
       if (color && this.activeColorPicker !== color) {
         this.activeColorPicker = color;
       } else if (
@@ -113,9 +112,11 @@ export default {
         this.activeColorPicker = null;
       }
     },
+    // changes css properties based on input
     changeCssProp(e, prop) {
       this.$emit("css-prop-change", { key: prop, value: e.target.value });
     },
+    // same thing but specifically for color changes
     updateColor(value, colorName) {
       this.$emit("css-prop-change", {
         key: "color-" + colorName,
@@ -123,6 +124,7 @@ export default {
       });
     }
   },
+  // constructor
   created() {
     window.addEventListener("scroll", this.handleSCroll);
   },
@@ -159,7 +161,7 @@ export default {
   z-index: 10;
   user-select: none;
 }
-.header-container.is-visible {
+.header-container.collapsed {
   height: 2.5em;
   line-height: 2.5em;
   font-size: 2em;
@@ -187,7 +189,7 @@ export default {
   transition: all var(--duration) var(--timing-func);
 }
 
-.is-visible .dropdown-icon {
+.collapsed .dropdown-icon {
   top: 1.2em;
 }
 

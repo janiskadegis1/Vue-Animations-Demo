@@ -32,6 +32,7 @@ export default {
     };
   },
   methods: {
+    // adds dropdown value
     addValue() {
       if (this.inputValue) {
         const randomID = Math.floor(Math.random() * 99999);

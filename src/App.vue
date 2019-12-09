@@ -16,6 +16,7 @@ export default {
   },
   data: function() {
     return {
+      // default values of editable css properties
       cssProps: {
         duration: "0.4s",
         "timing-func": "ease-in-out",
@@ -49,14 +50,13 @@ export default {
 </script>
 
 <style>
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--color-white);
+  min-height: 100vh;
 }
 
-body {
-  background: var(--color-white);
-}
 </style>

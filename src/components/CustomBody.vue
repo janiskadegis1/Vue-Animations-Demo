@@ -20,6 +20,5 @@ export default {
 .main-body {
   padding: 120px 80px;
   width: calc(100% - 160px);
-  height: 1000px;
 }
 </style>
